@@ -71,5 +71,31 @@ To push changes to a branch:
     git push origin BranchName
 
 ----
-## More on Branching
-(To be continue)
+## Branching
+Do you need to make changes to your code but you're afraid of adding more bugs? Usually, you'll want to branch off from the main code when you're adding features. You can think of it as parallel processing!
+
+### Branch Commands
+The following command will list all branches in the repo:
+
+    git branch
+
+To create a branch with a `BranchName`:
+
+    git branch BranchName
+
+To delete a branch:
+
+    git branch -d BranchName
+
+To force delete a branch:
+
+    git branch -D BranchName
+
+To rename the current branch to `NewName`:
+
+    git branch -m NewName
+
+To list all your remote branches:
+
+    git branch -a
+
