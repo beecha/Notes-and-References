@@ -99,3 +99,47 @@ To list all your remote branches:
 
     git branch -a
 
+To switch to another branch:
+
+    git checkout BranchName
+
+## Branch And Merge Example
+Usually, working code is left alone. Create a branch to add new features without affecting the main working code.
+
+    git branch NewFeature
+
+You can switch to that branch and start doing work on it.
+
+    git checkout NewFeature
+
+Suppose there's a major bug in the main code that needs an immediate fix. You must switch branch back to the master to do the fix. But do NOTE that if there are uncommitted changes in the current branch that CONFLICTS with the master (or another branch), then GIT will not let you switch branch. So make a commit before switching branch. Now we switch to the master branch.
+
+    git checkout master
+
+And then from the master branch, we will create another branch to do the hotfix.
+
+    git branch -b hotfix
+
+The `-b` flag will automatically switch to that newly created branch. We make changes and fix the bug. Then we commit those changes.
+
+    git commit -a -m "Fixed the duplication bug"
+
+Notice the `-a` flag. This tells git to add all files that were changed/editted. When you're satisfied with the hotfix, you can now merge it back to the master branch.
+
+    git checkout master
+    git merge hotfix
+
+We can now delete the hotfix branch because it's no longer needed.
+
+    git branch -d hotfix
+
+Great. Now we can switch to the NewFeature branch and continue our work. Once you're finished with the features, run a commit, and then merge with the master.
+
+    git commit -a -m "New Feauture Added: Navigation Tab"
+    git checkout master
+    git merge NewFeature
+
+Now we will delete the `NewFeature` branch because it's no longer needed as well.
+
+    git branch -d NewFeature
+
