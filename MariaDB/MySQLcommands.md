@@ -159,3 +159,80 @@ And now we close the HTML tags.
     </html>
 
 Navigate to your `showreviews.php` website and you will see the data shown in a table.
+
+## Create an Entry Data Form
+
+We will now create a website that will have a `<form>` element that will be able to enter information into a database. The existing database, `reviews`, and table, `user_reviews`, will be used. Make a website in your localhost directory, in my case it will be `/var/www/html`. And I'm going to name it `reviews.php`. Now put the following HTML in the file:
+
+    <!DOCTYPE HTML>
+    <html>
+    <body>
+     
+    <p>Review Form</p>
+     
+    <form action="addreview.php" method="POST">
+     
+    Your Name: <input type="text" name="reviewer_name"><br><br>
+     
+    Star Rating
+    <select name="star_rating">
+    	<option value="1">1 Star</option>
+    	<option value="2">2 Stars</option>
+    	<option value="3">3 Stars</option>
+    	<option value="4">4 Stars</option>
+    	<option value="5">5 Stars</option>
+    </select><br><br>
+         
+    Your Review<br>
+    	<textarea name="details" rows="10" cols="30"></textarea><br><br>
+    	<input type="submit" value="Submit" name="submit">
+     
+    </form>
+    </body>
+    </html>
+
+The form's `method="POST"` will transfer the information inside the form to an action, `action="addreview.php"`. Now create the `addreview.php` file in your directory and add php scripts to it.
+
+Create php variables and bind it to the strings that will get you access to the database.
+
+    <?php
+    $hostname = "localhost";
+    $username = "USERNAME";
+    $password = "UserPassword";
+    $db = "reviews";
+
+Bind another variable to hold the mysqli_connect() method with the 4 variables.
+
+    $dbconnect=mysqli_connect($hostname, $username, $password, $db);
+
+Do an if statement to check if the access to the database failed.
+
+    if ($dbconnect->connect_error) {
+    	die("Database connection failed: " . $dbconnect->connect_error);
+    }
+
+Grab the information from the HTML form and put it in php variables.
+
+    if(isset($_POST['submit'])) {
+    	$reviewer_name=$_POST['reviewer_name'];
+    	$star_rating=$_POST['star_rating'];
+    	$details=$_POST['details'];
+
+Insert the information into the database table.
+
+        $query = "INSERT INTO user_reviews (reviewer_name, star_rating, details) VALUES ('reviewer_name', 'star_rating', 'details')";
+
+Do an if statement if it failed to insert into the database. Otherwise throw a success message if it went through.
+
+    if (!mysql_query($dbconnect, $query)) {
+    	die('An error occurred when submitting.');
+    }
+    else {
+    	echo "Submission Success.";
+    }
+
+Close off the if statement from `$dbconnect->connect_error` and close off the php script.
+
+    }
+    ?>
+
